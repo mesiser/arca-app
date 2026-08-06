@@ -97,6 +97,18 @@ struct ARViewContainer: UIViewRepresentable {
                 
                 worldAnchor.addChild(occluder)
                 
+                // Создаем источник света
+                let lightEntity = Entity()
+                var directionalLight = DirectionalLightComponent()
+                directionalLight.color = .white
+                directionalLight.intensity = 3000 // Яркость света (настройте под себя, например 2000-5000)
+                lightEntity.components[DirectionalLightComponent.self] = directionalLight
+
+                // Поворачиваем свет немного сверху и спереди
+                lightEntity.orientation = simd_quatf(angle: -.pi / 4, axis: [1, 0, 0])
+
+                worldAnchor.addChild(lightEntity)
+                
                 arView.scene.addAnchor(worldAnchor)
                 print("Арка и маска успешно размещены!")
             } catch {
